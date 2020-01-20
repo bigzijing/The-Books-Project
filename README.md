@@ -59,10 +59,16 @@ There's an API where if you send a POST request to the link 'api/<isbn>', you'll
 These are the tables that I have created in the DB:
 
 ### books table
+```sql
 CREATE TABLE IF NOT EXISTS books (isbn TEXT PRIMARY KEY NOT NULL, title TEXT NOT NULL, author TEXT NOT NULL, year NUMERIC);
+```
 
 ### users table
+```sql
 CREATE TABLE IF NOT EXISTS users (id SERIAL PRIMARY KEY, username TEXT NO NULL, hash TEXT NOT NULL);
+```
 
 ### reviews table
+```sql
 CREATE TABLE IF NOT EXISTS reviews (id SERIAL PRIMARY KEY, uid INTEGER REFERENCES users (id), risbn TEXT REFERENCES books (isbn), rTitle TEXT, rRating INTEGER, review TEXT);
+```
