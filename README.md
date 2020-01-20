@@ -20,10 +20,10 @@ You would also have to run `pip3 install -r requirements.txt` if not already don
 At the homepage, a user is redirected to login if there is no session logged in data.
 
 ## Register
-There is also a register page.
-The register page will hash the password created and store it in the database
-Currently, the register function doesn't really care for min/max len and complexity of passwords.
-It is also not using any OAuth frameworks/libraries.
+There is also a register page.  
+The register page will hash the password created and store it in the database.  
+Currently, the register function doesn't really care for min/max len and complexity of passwords.  
+It is also not using any OAuth frameworks/libraries.  
 
 ## Login
 At the login page, the password entered will be hashed, and then checked against the stored hash password in the database.
@@ -39,7 +39,7 @@ Currently, the order of words matter such that if you queried "a carol", "A Chri
 The results page shows the query results, rendered in the HTML through Jinja, and has a "More Information" link.
 ### Note: Although the placeholder data is for the book "Do Androids Dream of Electric Sheep?", that book is actually not in the database, so it would not return that query. It just so happened to be the exact book I was reading so I used it as placeholder. Other works of Philip K. Dick can also be found.
 
-## More Infomration / book/<isbn>
+## More Infomration / book/isbn
 When the link is clicked, you get redirected to a page with the book's ISBN.
 The page sends a POST request to GoodReads API to display certain data on top of the data we already have in our local database on the book.
 It will also display reviews submitted by users of TBP.
@@ -50,7 +50,7 @@ Else, the user can choose to submit a review with 3 fields:
 3. Review itself
 Once submitted, you would be redirected to a submitted page just for sanity check, with a back button I believe.
 
-## API/<isbn>
+## API/isbn
 There's an API where if you send a POST request to the link 'api/<isbn>', you'll receive a JSON data of whatever I needed to include as part of the project requirement.
 
 ---
