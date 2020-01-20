@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Search Results
+{% endblock %}
+
+{% block body %}
+
+    <h1>Search Results</h1> 
+    <br>
+    {% if rows %}
+        {% for row in rows %}
+        <p>Book Title: <b>{{ row[1] }}</b></p>
+        <p>ISBN: <b>{{ row[0] }}</b></p>
+        <p>Author: <b>{{ row[2] }}</b></p>
+        <p><a href="/book/{{ row[0] }}">More Information</a></p>
+        <br>
+        {% endfor %}
+    {% else %}
+        <p>Your search returned <b>0</b> results.</p>
+        <p>Did you type in your search terms properly?</p>
+        <p>Click <a href="/book">here</a> to try again.</p>
+    {% endif %}
+
+{% endblock %}

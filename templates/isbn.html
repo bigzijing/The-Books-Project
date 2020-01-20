@@ -1,0 +1,140 @@
+{% extends "layout.html" %}
+
+{% block results %}
+{{ query[1] }}: ISBN {{ res["isbn"] }}
+{% endblock %}
+
+{% block style %}
+    <style>
+        .deets {
+            color:firebrick;
+        }
+        .warning {
+            color:red;
+            font-size: 20px;
+        }
+        .heads {
+            font-weight:bold;
+        }
+        thead {
+            background-color: dodgerblue; 
+        }
+        .table-striped>tbody>tr:nth-child(even)>td, .table-striped>tbody>tr:nth-child(odd)>td {
+            background-color: aliceblue; 
+        }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+    <div class="col-4 offset-4">
+        <h1 style="background-color: dodgerblue; color:firebrick">{{ query[1] }}</h1>
+    </div>
+    <br>
+    <h5>Author: <span class="deets">{{ query[2] }}</span></h5>
+    <h5>ISBN: <span class="deets">{{ query[0] }}</span></h5>
+    <h5>Year Published: <span class="deets">{{ query[3] }}</span></h5>
+    <h6><a href="https://www.goodreads.com/book/show/{{ res['id'] }}">GoodReads</a> Average Rating: <span class="deets">{{ res["average_rating"] }} &#11088;</span></h6>
+    <h6>Number of <a href="https://www.goodreads.com/book/show/{{ res['id'] }}">GoodReads</a> Ratings: <span class="deets">{{ res["ratings_count"] }}</span></h6>
+    <br>
+    <a href="#submitreview">Submit a review</a>
+    <hr>
+    <h5>The Book Project: User Submitted Reviews</h5><br>
+
+    <!--
+        dummy data:
+        [(3, 1, 'user', '0380795272', 'test', 5, 'review value'), (4, 2, 'admin', '0380795272', 'test 2', 5, 'review value 55'), (5, 2, 'admin', '0380795272', 'test 2', 5, 'asdasdasdsad')]    
+    -->
+    {% if reviews %}
+        {% for review in reviews %}
+            <div class="col-4 offset-4">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <td scope="row">Submitted by: <b>{{ review[2] }}</b></td>
+                        </tr>
+                    <tbody>
+                        <tr>
+                            <td scope="row">Review Title: <b>{{ review[4] }}</b></td>
+                        </tr>
+                        <tr>
+                            <td scope="row">Rating: <b>{{ review[5] }}&#11088;</b></td>
+                        </tr>
+                        <tr>
+                            <td scope="row" colspan="2">{{ review[6] }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br>    
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>There are currently no TBP reviews yet... Submit one yourself below!</p>
+    {% endif %}
+    <br>
+    <hr>
+
+    <div id="submitreview">
+        {% if submittedBefore == False %}
+            <h4>Submit a Review</h3><br>
+            <form class="col-4 offset-4" action="/book/{{ query[0] }}" method="post";>
+                <div class="form-group">
+                    <label for="reviewTitle" class="heads">Review Title</label>
+                    {% if not rtitle %}
+                        <div class="alert alert-danger" role="alert">
+                            You need to enter a review title!
+                        </div>
+                    {% endif %}
+                    <input class="form-control" id="reviewTitle" name="reviewTitle" placeholder="The Best Book Ever!!111eleven">
+                </div>
+                <div class="form-group">
+                    <label for="rating" class="heads">Rating</label>
+                    <select class="form-control" id="rating" name="rating">
+                        <option>5</option>
+                        <option>4</option>
+                        <option>3</option>
+                        <option>2</option>
+                        <option>1</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="review" class="heads">Review</label>
+                    {% if not review %}
+                        <div class="alert alert-danger" role="alert">
+                            You need to enter your review!
+                        </div>
+                    {% endif %}
+                    <textarea class="form-control" id="review" name="review" rows="6" placeholder="This is the best book ever, like ever! Mr Grey is like so... oh-em-gee hot!!! I might even consider him over Edward Cullen, even though I'm such an Edward-stan! kissy emoji, eggplant emoji, 100 emoji"></textarea>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit Review</button>
+            </form>
+        {% else %}
+            <h4>You cannot submit another review.</h4>
+            <h4>You have already submitted a review before!</h4>
+        {% endif %}
+    </div>
+
+{% endblock %}
+
+<!---
+    query = ('0375421874', 'The Minority Report', 'Philip K. Dick', Decimal('1956'))
+
+    Example data:
+    {
+    "books": [
+        {
+        "average_rating": "4.02", 
+        "id": 14817, 
+        "isbn": "057507681X", 
+        "isbn13": "9780575076815", 
+        "ratings_count": 70123, 
+        "reviews_count": 137566, 
+        "text_reviews_count": 1908, 
+        "work_ratings_count": 81214, 
+        "work_reviews_count": 161365, 
+        "work_text_reviews_count": 2897
+        }
+    ]  
+    }
+
+-->

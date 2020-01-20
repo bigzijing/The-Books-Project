@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Homepage
+{% endblock %}
+
+{% block body %}
+    {% if session.username %}
+        <h1>The Books Project</h1>
+        <br>
+        <p>Welcome back, <b>{{ session.username }}</b>.</p>
+    {% else %}
+        <h2>You are currently not logged in.</h2>
+        <br>
+        <p>Click <a href="/login">here</a> to log in.</p>
+    {% endif %}
+{% endblock %}
